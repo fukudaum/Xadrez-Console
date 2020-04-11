@@ -7,10 +7,10 @@ namespace Xadrez
 {
     class PartidaDeXadrez
     {
-        public Tabuleiro tab { get; set; }
-        private int turno;
-        private Cor jogadorAtual;
-        public bool partidaTerminada;
+        public Tabuleiro tab { get; private set; }
+        public int turno { get; private set; }
+        public Cor jogadorAtual { get; private set; }
+        public bool partidaTerminada { get; private set; }
 
         public PartidaDeXadrez()
         {
@@ -18,6 +18,24 @@ namespace Xadrez
             turno = 1;
             jogadorAtual = Cor.Branca;
             ColocarPecas();
+        }
+
+        public void ValidarPosicaoOrigem(Posicao pos)
+        {
+            if (tab.peca(pos) == null)
+                throw new TabuleiroException("Nao existe peca na posicao de origem escolhida!");
+            if (jogadorAtual != tab.peca(pos).Cor)
+                throw new TabuleiroException("A peca de origem nao e sua!");
+            if (!tab.peca(pos).ExisteMovimentosPossiveis())
+                throw new TabuleiroException("Nao existe movimentos possiveis para essa peca!");
+
+        }
+
+        public void ValidarPosicaoDestino(Posicao origem, Posicao destino)
+        {
+            if (!tab.peca(origem).PodeMoverPara(destino))
+                throw new TabuleiroException("Posicao de destino invalida!");
+
         }
 
         public void ExecutaMovimento(Posicao origem, Posicao destino)
@@ -28,6 +46,22 @@ namespace Xadrez
             tab.colocarPeca(p, destino);
         }
 
+        public void RealizaJogada(Posicao origem, Posicao destino)
+        {
+            ExecutaMovimento(origem, destino);
+            turno++;
+            MudaJogador();
+
+        }
+
+        public void MudaJogador()
+        {
+            if (jogadorAtual == Cor.Branca)
+                jogadorAtual = Cor.Preta;
+            else
+                jogadorAtual = Cor.Branca;
+
+        }
         private void ColocarPecas()
         {
             tab.colocarPeca(new Torre(Cor.Preta, tab), new PosicaoXadrez('a', 8).ToPosicao());
