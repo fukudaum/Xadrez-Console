@@ -31,6 +31,10 @@ namespace tabuleiro
             return p == null || p.Cor != Cor;
         }
 
+        public void DecrementarMovimentos()
+        {
+            QtdMovimentos--;
+        }
         public void IncrementarMovimentos()
         {
             QtdMovimentos++;
