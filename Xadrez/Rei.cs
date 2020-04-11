@@ -5,7 +5,7 @@ using tabuleiro;
 
 namespace Xadrez
 {
-    class Rei: Peca
+    class Rei : Peca
     {
         private PartidaDeXadrez Partida;
         public Rei(Cor cor, Tabuleiro tab, PartidaDeXadrez partida)
@@ -22,7 +22,7 @@ namespace Xadrez
 
         public override bool[,] MovimentosPossiveis()
         {
-            bool[,] matriz = new bool[Tab.Linhas,Tab.Colunas];
+            bool[,] matriz = new bool[Tab.Linhas, Tab.Colunas];
             Posicao pos = new Posicao(0, 0);
 
             //acima
@@ -82,30 +82,33 @@ namespace Xadrez
             }
 
             //#jogadaespecial roque
-            if(QtdMovimentos == 0 && !Partida.xeque)
-            {   
+            if (QtdMovimentos == 0 && !Partida.xeque)
+            {
                 //#jogadaespecial roque pequeno
                 Posicao posT1 = new Posicao(Posicao.Linha, Posicao.Coluna + 3);
                 if (testeTorreRoque(posT1))
                 {
                     Posicao p1 = new Posicao(Posicao.Linha, Posicao.Coluna + 1);
                     Posicao p2 = new Posicao(Posicao.Linha, Posicao.Coluna + 2);
-                    if(Tab.peca(p1) == null && Tab.peca(p2) == null)
+                    if (Tab.peca(p1) == null && Tab.peca(p2) == null)
                     {
                         matriz[Posicao.Linha, Posicao.Coluna + 2] = true;
                     }
                 }
 
                 //#jogadaespecial roque grande
-                Posicao posT2 = new Posicao(Posicao.Linha, Posicao.Coluna - 4 );
-                if (testeTorreRoque(posT2))
+                Posicao posT2 = new Posicao(Posicao.Linha, Posicao.Coluna - 4);
+                if (Tab.posicaoValida(posT2))
                 {
-                    Posicao p1 = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
-                    Posicao p2 = new Posicao(Posicao.Linha, Posicao.Coluna - 2);
-                    Posicao p3 = new Posicao(Posicao.Linha, Posicao.Coluna - 3);
-                    if (Tab.peca(p1) == null && Tab.peca(p2) == null && Tab.peca(p3) == null)
+                    if (testeTorreRoque(posT2))
                     {
-                        matriz[Posicao.Linha, Posicao.Coluna - 2] = true;
+                        Posicao p1 = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
+                        Posicao p2 = new Posicao(Posicao.Linha, Posicao.Coluna - 2);
+                        Posicao p3 = new Posicao(Posicao.Linha, Posicao.Coluna - 3);
+                        if (Tab.peca(p1) == null && Tab.peca(p2) == null && Tab.peca(p3) == null)
+                        {
+                            matriz[Posicao.Linha, Posicao.Coluna - 2] = true;
+                        }
                     }
                 }
             }

@@ -39,7 +39,7 @@ namespace tabuleiro
         }
         public Peca peca(Posicao pos)
         {
-            return _pecas[pos.Linha, pos.Coluna];
+             return _pecas[pos.Linha, pos.Coluna];
         }
 
         public bool existePeca(Posicao pos)
