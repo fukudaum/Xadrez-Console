@@ -159,6 +159,20 @@ namespace Xadrez
                 throw new TabuleiroException("Voce nao pode se colocar em cheque!");
             }
 
+            Peca p = tab.peca(destino);
+
+            //#jogadaespecial promocao
+            if (p is Peao)
+            {
+                if ((p.Cor == Cor.Branca && destino.Linha == 0) || p.Cor == Cor.Preta && destino.Linha == 7)
+                {
+                    p = tab.retirarPeca(destino);
+                    pecas.Remove(p);
+                    Peca dama = new Rainha(p.Cor, tab);
+                    tab.colocarPeca(dama, destino);
+                    pecas.Add(dama);
+                }
+            }
             if (estaEmCheque(adversaria(jogadorAtual)))
             {
                 xeque = true;
@@ -177,7 +191,7 @@ namespace Xadrez
             }
 
             //#jogadaespecial En Passant
-            Peca p = tab.peca(destino);
+
             if (p is Peao && (destino.Linha == origem.Linha - 2 || destino.Linha == origem.Linha + 2))
                 vulneravelEnPassant = p;
             else
@@ -289,7 +303,7 @@ namespace Xadrez
         }
         private void ColocarPecas()
         {
-           
+
             ColocarNovaPeca('a', 8, new Torre(Cor.Preta, tab));
             ColocarNovaPeca('b', 8, new Cavalo(Cor.Preta, tab));
             ColocarNovaPeca('c', 8, new Bispo(Cor.Preta, tab));
@@ -298,7 +312,7 @@ namespace Xadrez
             ColocarNovaPeca('f', 8, new Bispo(Cor.Preta, tab));
             ColocarNovaPeca('g', 8, new Cavalo(Cor.Preta, tab));
             ColocarNovaPeca('h', 8, new Torre(Cor.Preta, tab));
-            
+
             ColocarNovaPeca('a', 7, new Peao(Cor.Preta, tab, this));
             ColocarNovaPeca('b', 7, new Peao(Cor.Preta, tab, this));
             ColocarNovaPeca('c', 7, new Peao(Cor.Preta, tab, this));
