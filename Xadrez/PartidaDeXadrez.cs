@@ -7,7 +7,7 @@ namespace Xadrez
 {
     class PartidaDeXadrez
     {
-        private Tabuleiro tab;
+        public Tabuleiro tab { get; set; }
         private int turno;
         private Cor jogadorAtual;
         public bool partidaTerminada;
@@ -49,9 +49,5 @@ namespace Xadrez
             tab.colocarPeca(new Torre(Cor.Branca, tab), new PosicaoXadrez('h', 1).ToPosicao());
         }
 
-        public Tabuleiro GetTab()
-        {
-            return tab;
-        }
     }
 }
